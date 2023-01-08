@@ -1,3 +1,5 @@
+{% load static %}
+{% load socialaccount %}
 <header>
     <ul>
         <li><a href="">Home</a></li>
@@ -14,6 +16,13 @@
             <form action="/logout">
                 <button type="submit">Logout</button>
             </form>
+        </li>
+        <li>
+            {% if user.is_authenticated %}
+                <p style="color: red">Welcome, You are logged in as {{ user.username }}</p>
+            {% else %}
+                <a href="{% provider_login_url 'google' %}">Login With Google</a>
+            {% endif %}
         </li>
     </ul>
 </header>

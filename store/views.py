@@ -1,10 +1,9 @@
 import logging
 
-from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate, logout
 
 from store.forms import UserRegistrationForm, UserStandardLoginForm
-
 
 logger = logging.getLogger("logger")
 
@@ -14,7 +13,7 @@ def index(request):
 
 
 def registration(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         user_form = UserRegistrationForm(data=request.POST)
         if user_form.is_valid():
             user = user_form.save()
@@ -22,10 +21,10 @@ def registration(request):
             user.save()
         else:
             logger.error(user_form.errors)
-        return redirect("/")
+        return redirect('/')
     else:
         user_form = UserRegistrationForm()
-    return render(request, "register.html", {"user_form": user_form})
+    return render(request, 'register.html', {'user_form': user_form})
 
 
 def standard_login(request):
