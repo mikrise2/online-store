@@ -11,5 +11,5 @@ class UserRegistrationForm(forms.ModelForm):
 
 
 class UserStandardLoginForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField()
+    username = forms.CharField(required=True)
+    password = forms.CharField(required=True)
