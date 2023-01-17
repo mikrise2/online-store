@@ -12,6 +12,14 @@ def index(request):
     return render(request, 'index.html')
 
 
+def profile(request):
+    return render(request, 'profile.html')
+
+
+def edit_profile(request):
+    return render(request, 'profile-edit.html')
+
+
 def registration(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(data=request.POST)

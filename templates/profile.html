@@ -1,0 +1,56 @@
+{% extends "header.html" %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% block content %}
+    <div class="container d-flex justify-content-center mt-5">
+        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Avatar"
+             style="border-radius: 50%" width="20%" height="auto">
+    </div>
+    <div class="container d-flex justify-content-center mt-5">
+        <div class="container d-flex justify-content-center">
+            <div class="col">
+                <div class="row row-cols-5 d-flex justify-content-center">
+                    <div class="col">
+                        <p class="mb-0 h3">Name</p>
+                    </div>
+                    <div class="col">
+                        <p class="text-muted mb-0 h3">Daniil</p>
+                    </div>
+                </div>
+                <div class="row row-cols-5 d-flex justify-content-center mt-3">
+                    <div class="col">
+                        <p class="mb-0 h3">Second Name</p>
+                    </div>
+                    <div class="col">
+                        <p class="text-muted mb-0 h3">Karol</p>
+                    </div>
+                </div>
+                <div class="row row-cols-5 d-flex justify-content-center mt-3">
+                    <div class="col">
+                        <p class="mb-0 h3">Email</p>
+                    </div>
+                    <div class="col">
+                        <a href="mailto: example@example.com" class="text-muted mb-0 h3">example@example.com</a>
+                    </div>
+                </div>
+                <div class="row row-cols-5 d-flex justify-content-center mt-3">
+                    <div class="col">
+                        <p class="mb-0 h3">Phone number</p>
+                    </div>
+                    <div class="col">
+                        <a href="tel:+999999999" class="text-muted mb-0 h3">+999999999</a>
+                    </div>
+                </div>
+                <div class="row row-cols-5 d-flex justify-content-center mt-3">
+                    <div class="col">
+                        <p class="mb-0 h3">Orders sold</p>
+                    </div>
+                    <div class="col">
+                        <p class="text-muted mb-0 h3">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
