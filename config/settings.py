@@ -69,7 +69,8 @@ INSTALLED_APPS = [
 
     'allauth.socialaccount.providers.google',
 
-    'bootstrap5'
+    'bootstrap5',
+    'store'
 ]
 
 SOCIALACCOUNT_LOGIN_ON_GET = True

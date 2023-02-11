@@ -3,7 +3,7 @@ import logging
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 
-from store.forms import UserRegistrationForm, UserStandardLoginForm
+from store.forms import UserRegistrationForm, UserStandardLoginForm, ProfileForm
 
 logger = logging.getLogger('logger')
 
@@ -23,8 +23,11 @@ def edit_profile(request):
 def registration(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(data=request.POST)
-        if user_form.is_valid():
+        profile_form = ProfileForm(data=request.POST)
+        if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
+            user.refresh_from_db()
+            user.profile.phone_number = profile_form.cleaned_data.get('phone_number')
             user.set_password(user.password)
             user.save()
         else:
