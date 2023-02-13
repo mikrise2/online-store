@@ -50,15 +50,15 @@ def activate_email(request, user, to_email):
     mail_subject = 'Activate your user account.'
     message = render_to_string('template_activate_account.html', {
         'user': user.username,
-        'domain': 'http://127.0.0.1:8000/',  # TODO
+        'domain': '127.0.0.1:8000/',  # TODO
         'uid': urlsafe_base64_encode(force_bytes(user.pk)),
         'token': account_activation_token.make_token(user),
         'protocol': 'https' if request.is_secure() else 'http'
     })
     email = EmailMessage(mail_subject, message, to=[to_email])
     if email.send():
-        messages.success(request, f'Dear <b>{user}</b>, please go to you email <b>{to_email}</b> inbox and click on \
-               received activation link to confirm and complete the registration. <b>Note:</b> Check your spam folder.')
+        messages.success(request, f'Dear {user}, please go to you email {to_email} inbox and click on \
+               received activation link to confirm and complete the registration. Note: Check your spam folder.')
     else:
         messages.error(request, f'Problem sending confirmation email to {to_email}, check if you typed it correctly.')
 

@@ -3,13 +3,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/x-icon" href="{% static 'images/logo.png' %}" />
+    <link rel="icon" type="image/x-icon" href="{% static 'images/logo.png' %}"/>
+    {% load static %}
 </head>
 <body>
 {% include 'includes/nav.html' %}
+{% include 'includes/messages.html' %}
 <div>
     {% block content %}
     {% endblock %}
 </div>
+<script src="{% static 'scripts/jquery.js' %}"></script>
+<script src="{% static 'scripts/messageRemove.js' %}"></script>
 </body>
 </html>
