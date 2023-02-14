@@ -99,6 +99,7 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 4
 
 LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

@@ -2,6 +2,7 @@ import logging
 
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, get_user_model
+from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
@@ -18,10 +19,19 @@ def index(request):
     return render(request, 'index.html')
 
 
-def profile(request):
-    return render(request, 'profile.html')
+def profile(request, username):  # TODO non existed accounts
+    if request.method == 'POST':
+        pass
+    user = get_user_model().objects.filter(username=username).first()  # TODO DTO
+    return render(request, 'profile.html', {'profile': user})
 
 
+def login_required_fail(request):
+    messages.warning(request, 'You must be logged in to visit this page.')
+    return redirect('/')
+
+
+@login_required(redirect_field_name='', login_url='/login_failed')  # TODO redirect_field_name
 def edit_profile(request):
     return render(request, 'profile-edit.html')
 
