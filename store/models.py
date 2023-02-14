@@ -19,3 +19,10 @@ def update_profile_signal(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
     instance.profile.save()
+
+
+class Product(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=15, blank=True)
+    description = models.CharField(max_length=300, blank=True)
+    price = models.IntegerField(blank=True, default=0)
