@@ -10,7 +10,6 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from store.forms import UserRegistrationForm, UserStandardLoginForm, ProfileForm
-from store.models import Product
 from store.tokens import account_activation_token
 
 logger = logging.getLogger('logger')

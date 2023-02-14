@@ -26,3 +26,8 @@ class Product(models.Model):
     name = models.CharField(max_length=15, blank=True)
     description = models.CharField(max_length=300, blank=True)
     price = models.IntegerField(blank=True, default=0)
+
+
+class Photo(models.Model):
+    url = models.CharField(max_length=150)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
