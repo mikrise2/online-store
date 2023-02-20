@@ -1,0 +1,28 @@
+{% extends "header.html" %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% block content %}
+    <div class="container d-flex justify-content-center mt-5">
+        <div class="container d-flex justify-content-center">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="col">
+                    <div class="row d-flex justify-content-center">
+                        <label for="avatar" class="form-label">Avatar</label>
+                        <input class="form-control" type="file" accept="image/*" id="avatar">
+                    </div>
+                    <div class="row d-flex justify-content-center mt-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+                    </div>
+                    <div class="row d-flex justify-content-center mt-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" name="description" id="description" rows="4"></textarea>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

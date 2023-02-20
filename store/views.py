@@ -11,7 +11,7 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth.models import User
 
-from store.forms import UserRegistrationForm, UserStandardLoginForm, ProfileForm
+from store.forms import UserRegistrationForm, UserStandardLoginForm, ProfileForm, ProductForm
 from store.tokens import account_activation_token
 
 logger = logging.getLogger('logger')
@@ -44,6 +44,17 @@ def edit_profile(request):
     return render(request, 'profile-edit.html')
 
 
+@login_required(redirect_field_name='', login_url='/login_failed')
+def create_product(request):
+    if request.method == 'POST':
+        product_form = ProductForm(data=request.POST)
+        if product_form.is_valid():
+            product = product_form.save(commit=False)
+            product.user = request.user
+            product.save()
+    return render(request, 'create-product.html')
+
+
 def registration(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(data=request.POST)
@@ -52,9 +63,9 @@ def registration(request):
             user = user_form.save()
             user.refresh_from_db()
             user.set_password(user.password)
-            user.is_active = False
+            # user.is_active = False
             user.save()
-            activate_email(request, user, user_form.cleaned_data.get('email'))
+            # activate_email(request, user, user_form.cleaned_data.get('email'))
         else:
             logger.error(user_form.errors)
         return redirect('/')
