@@ -12,9 +12,18 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth.models import User
 
 from store.forms import UserRegistrationForm, UserStandardLoginForm, ProfileForm, ProductForm
+from store.models import Product
 from store.tokens import account_activation_token
 
 logger = logging.getLogger('logger')
+
+
+def to_hash(product_id: int):
+    return (product_id + 55691) * 55051
+
+
+def from_hash(number: int):
+    return (number // 55051) - 55691
 
 
 def index(request):
@@ -32,6 +41,16 @@ def profile(request, username):
     if user is None:
         return HttpResponseNotFound()
     return render(request, 'profile.html', {'profile': user})
+
+
+def product_view(request, number):
+    if request.method == 'POST':
+        pass
+    product_id = from_hash(number)
+    product = Product.objects.filter(id=product_id).first()
+    if product is None:
+        return HttpResponseNotFound()
+    return render(request, 'product.html', {'product': product})
 
 
 def login_required_fail(request):
