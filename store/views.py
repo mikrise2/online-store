@@ -4,10 +4,12 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMessage
+from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.contrib.auth.models import User
 
 from store.forms import UserRegistrationForm, UserStandardLoginForm, ProfileForm
 from store.tokens import account_activation_token
@@ -23,10 +25,12 @@ def product(request):
     return render(request, 'product.html')
 
 
-def profile(request, username):  # TODO non existed accounts
+def profile(request, username):
     if request.method == 'POST':
         pass
     user = get_user_model().objects.filter(username=username).first()  # TODO DTO
+    if user is None:
+        return HttpResponseNotFound()
     return render(request, 'profile.html', {'profile': user})
 
 
@@ -35,7 +39,7 @@ def login_required_fail(request):
     return redirect('/')
 
 
-@login_required(redirect_field_name='', login_url='/login_failed')  # TODO redirect_field_name
+@login_required(redirect_field_name='', login_url='/login_failed')
 def edit_profile(request):
     return render(request, 'profile-edit.html')
 
@@ -47,7 +51,6 @@ def registration(request):
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
             user.refresh_from_db()
-            user.profile.phone_number = profile_form.cleaned_data.get('phone_number')
             user.set_password(user.password)
             user.is_active = False
             user.save()
@@ -75,6 +78,7 @@ def activate_email(request, user, to_email):
                received activation link to confirm and complete the registration. Note: Check your spam folder.')
     else:
         messages.error(request, f'Problem sending confirmation email to {to_email}, check if you typed it correctly.')
+        logger.error(f'Problem sending confirmation email to {to_email}')
 
 
 def standard_login(request):
@@ -87,10 +91,14 @@ def standard_login(request):
             if user is not None:
                 login(request, user)
                 return redirect('/')
+            elif len(User.objects.filter(username=username)) > 0:
+                logger.warning(f'user {username} is not active')
+                messages.warning(request, 'You must activate your account. Please check your email.')
             else:
-                logger.warning(f'Invalid username or password. Username:{username}.')
+                logger.warning(f'no user {username}')
+                messages.warning(request, f'No user with name {username} was found')
         else:
-            logger.warning(f'Fields input is not correct.')
+            logger.warning('input fields is not correct.')
     return redirect('/')
 
 
@@ -101,12 +109,11 @@ def activate(request, uidb64, token):
         user = User.objects.get(pk=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
-
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
         messages.success(request, 'Thank you for your email confirmation. Now you can login your account.')
     else:
         messages.error(request, 'Activation link is invalid!')
-
+        logger.error(f'failed activation: {token}, {request.path}')
     return redirect('/')
