@@ -1,6 +1,6 @@
 {% extends "header.html" %}
 {% block content %}
-    <div class="container">
+    <div class="container mt-3">
         <div class="row">
             <div class="col-3">
                 <div class="container d-flex justify-content-center mt-5">
@@ -39,7 +39,7 @@
                                 <div class="col-sm-3">
                                     <h6 class="mb-0 text-secondary">Seller</h6>
                                 </div>
-                                <div class="col-sm-9">{{ product.user.first_name }} {{ product.user.last_name }}</div>
+                                <a class="col-sm-9" href="/profile/{{ product.user.username }}">{{ product.user.first_name }} {{ product.user.last_name }}</a>
                             </div>
                             <hr>
                             <div class="row">
@@ -57,6 +57,15 @@
                                 </div>
                                 <div class="col-sm-9">
                                     <a href="mailto: {{ product.user.email }}">{{ product.user.email }}</a>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3 text-secondary">
+                                    <h6 class="mb-0">Price</h6>
+                                </div>
+                                <div class="col-sm-9">
+                                   <div class="col-sm-9">{{ product.price }}$</div>
                                 </div>
                             </div>
                         </div>

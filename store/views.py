@@ -49,7 +49,7 @@ def product(request):
 def profile(request, username):
     if request.method == 'POST':
         pass
-    user = get_user_model().objects.filter(username=username).first()  # TODO DTO
+    user = get_user_model().objects.filter(username=username).first()
     if user is None:
         return HttpResponseNotFound()
     return render(request, 'profile.html', {'profile': user})
@@ -76,6 +76,18 @@ def edit_profile(request):
 
 
 @login_required(redirect_field_name='', login_url='/login_failed')
+def my_products(request):
+    products = Product.objects.filter(user_id=request.user.id).values()
+    products = [entry for entry in products]
+    for entry in products:
+        entry['id'] = to_hash(entry['id'])
+    context = {
+        'products': products,
+    }
+    return render(request, 'my-products.html', context)
+
+
+@login_required(redirect_field_name='', login_url='/login_failed')
 def create_product(request):
     if request.method == 'POST':
         product_form = ProductForm(data=request.POST)
@@ -83,7 +95,32 @@ def create_product(request):
             product = product_form.save(commit=False)
             product.user = request.user
             product.save()
+            messages.success(request, f'Product {product.name} has been successfully added')
+        else:
+            messages.error(request, 'Incorrect data has been entered for product')
+        return redirect('/')
     return render(request, 'create-product.html')
+
+
+@login_required(redirect_field_name='', login_url='/login_failed')
+def edit_product(request, number):
+    product_id = from_hash(number)
+    product = Product.objects.get(pk=product_id)
+    if product.user_id != request.user.id:
+        messages.error(request, 'It isn\'t your product, you can\'t modify it.')
+        return redirect('/')
+    context = {'product': product}
+    # if request.method == 'POST':
+    #     product_form = ProductForm(data=request.POST)
+    #     if product_form.is_valid():
+    #         product = product_form.save(commit=False)
+    #         product.user = request.user
+    #         product.save()
+    #         messages.success(request, f'Product {product.name} has been successfully added')
+    #     else:
+    #         messages.error(request, 'Incorrect data has been entered for product')
+    #     return redirect('/')
+    return render(request, 'edit-product.html', context)
 
 
 def registration(request):
