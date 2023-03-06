@@ -27,11 +27,23 @@ def from_hash(number: int):
 
 
 def index(request):
-    return render(request, 'index.html')
+    products = Product.objects.values()
+    products = [entry for entry in products]
+    for entry in products:
+        entry['id'] = to_hash(entry['id'])
+    context = {
+        'products': products,
+    }
+    return render(request, 'index.html', context)
 
 
 def product(request):
     return render(request, 'product.html')
+
+
+# @login_required(redirect_field_name='', login_url='/login_failed')
+# def create_product(request):
+#     return render(request, 'create-product.html')
 
 
 def profile(request, username):

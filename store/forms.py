@@ -21,7 +21,7 @@ class ProfileForm(forms.ModelForm):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ('name', 'description')
+        fields = ('name', 'description', 'price')
 
 
 class UserStandardLoginForm(forms.Form):

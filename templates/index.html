@@ -1,3 +1,40 @@
 {% extends "header.html" %}
+
+{% load static %}
+{% block title %}
+<link rel="stylesheet" href="{% static 'css/product.css' %}">
+{% endblock %}
+
 {% block content %}
+    <div class="container d-flex justify-content-center mt-5">
+        <div class="container d-flex justify-content-center">
+            <div class="col-8">
+                {% for product in products %}
+                    <div class="card mb-3 product">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-4">
+                                    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                                         alt="Avatar"
+                                         style="display: block; margin: auto" width="15%" height="auto">
+                                </div>
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="card-title">{{ product.name }} {{ product.id }}</h4>
+                                        </div>
+                                        <div class="col">
+                                            <h5 class="card-title">{{ product.price }}</h5>
+                                        </div>
+                                    </div>
+                                    <p class="card-text">{{ product.description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    <a href="product/{{ product.id }}" class="stretched-link"></a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
