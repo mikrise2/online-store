@@ -109,17 +109,12 @@ def edit_product(request, number):
     if product.user_id != request.user.id:
         messages.error(request, 'It isn\'t your product, you can\'t modify it.')
         return redirect('/')
+    if request.method == 'GET':
+        product.id = number
+    if request.method == 'POST':
+        product.update(request.POST)
+        return redirect('/')
     context = {'product': product}
-    # if request.method == 'POST':
-    #     product_form = ProductForm(data=request.POST)
-    #     if product_form.is_valid():
-    #         product = product_form.save(commit=False)
-    #         product.user = request.user
-    #         product.save()
-    #         messages.success(request, f'Product {product.name} has been successfully added')
-    #     else:
-    #         messages.error(request, 'Incorrect data has been entered for product')
-    #     return redirect('/')
     return render(request, 'edit-product.html', context)
 
 
@@ -182,11 +177,11 @@ def standard_login(request):
 
 
 def activate(request, uidb64, token):
-    User = get_user_model()
+    user = get_user_model()
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = user.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, user.DoesNotExist):
         user = None
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True

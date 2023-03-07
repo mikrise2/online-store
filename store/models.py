@@ -27,6 +27,15 @@ class Product(models.Model):
     description = models.CharField(max_length=300, blank=True)
     price = models.IntegerField(blank=True, default=0)
 
+    def update(self, new_fields):
+        if self.name != new_fields['name']:
+            self.name = new_fields['name']
+        if self.description != new_fields['description']:
+            self.description = new_fields['description']
+        if self.price != new_fields['price']:
+            self.price = new_fields['price']
+        self.save()
+
 
 class Photo(models.Model):
     url = models.CharField(max_length=150)
