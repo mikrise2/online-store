@@ -72,6 +72,16 @@ def login_required_fail(request):
 
 @login_required(redirect_field_name='', login_url='/login_failed')
 def edit_profile(request):
+    if request.method == 'POST':
+        data = request.POST
+        user = request.user
+        if user.first_name != data['name']:
+            user.first_name = data['name']
+        if user.last_name != data['second-name']:
+            user.last_name = data['second-name']
+        user.save()
+        messages.success(request, 'Information successfully changed')
+        return redirect(f'/profile/{user.username}')
     return render(request, 'profile-edit.html')
 
 
