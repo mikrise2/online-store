@@ -12,15 +12,15 @@
                 </div>
                 <div class="row d-flex justify-content-center mt-3">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" placeholder="Name">
+                    <input type="text" class="form-control" id="name" placeholder="Name" value="{{ user.first_name }}">
                 </div>
                 <div class="row d-flex justify-content-center mt-3">
                     <label for="second-name" class="form-label">Second name</label>
-                    <input type="text" class="form-control" id="second-name" placeholder="Second name">
+                    <input type="text" class="form-control" id="second-name" placeholder="Second name" value="{{ user.last_name }}">
                 </div>
                 <div class="row d-flex justify-content-center mt-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" value="example@example.com" aria-label="example@example.com" disabled readonly>
+                    <input type="email" class="form-control" id="email" value="{{ user.email }}" aria-label="example@example.com" disabled readonly>
                 </div>
                 <div class="row d-flex justify-content-center mt-3">
                     <label for="tel" class="form-label">Phone number</label>

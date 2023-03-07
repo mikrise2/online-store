@@ -19,7 +19,8 @@
                 {% if user.is_authenticated %}
                     <a class="me-2 btn btn-outline-secondary text-nowrap text-centre" href="/my-products">my products</a>
                     <a class="me-2 btn btn-outline-secondary text-nowrap text-centre" href="/create-product">new product</a>
-                    <a class="navbar-brand" style="color: white">Welcome, You are logged in as {{ user.username }}</a>
+                    <a class="navbar-brand me-2" style="color: white">Welcome, You are logged in as {{ user.username }}</a>
+                    <a class="me-2 btn btn-outline-secondary text-nowrap text-centre" href="/edit-profile">Edit profile</a>
                     <form action="/logout">
                         <button type="submit" class="btn btn-outline-secondary">Logout</button>
                     </form>
